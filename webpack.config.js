@@ -1,8 +1,8 @@
-const package = require('./package.json');
 const buildConfig = require('./lib/build-config.js')(process.env.PLATFORM || 'webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+    mode : process.env.NODE_ENV || 'development',
     entry: {
         app: buildConfig.app.scripts.cwd + 'app.jsx'
     },
@@ -11,29 +11,26 @@ module.exports = {
         path: buildConfig.dist.basePath
     },
     module: {
-        loaders: [{
+        rules: [{
                 test: /\.jsx$/,
                 loader: 'babel-loader'
             },
             {
                 test: /\.js$/,
                 include: buildConfig.app.basePath,
-                loader: 'babel-loader'
-            },
-            {
-                test: /\.js$/,
-                include: buildConfig.app.basePath,
-                loader: 'uglify-loader'
+                use : [
+                    {loader: 'babel-loader'},
+                    {loader: 'uglify-loader'}
+                ]
             }
         ]
     },
     plugins: [
         new UglifyJSPlugin({
-            compress: {
-                warnings: false,
-            },
-            output: {
-                comments: false,
+            uglifyOptions: {
+                compress: {
+                    warnings: false,
+                }
             }
         })
     ]

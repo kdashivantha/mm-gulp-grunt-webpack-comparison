@@ -7,34 +7,26 @@ const buildConfig = require('./lib/build-config.js')(platform);
 const gulp = require('gulp');
 const pump = require('pump');
 const run = require('run-sequence');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 
 // Gulp Plugins
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
-const babel = require('gulp-babel');
-const concat = require('gulp-concat');
 const clean = require('gulp-clean');
 const htmlmin = require('gulp-htmlmin');
-const browserify = require('browserify');
-const babelify = require('babelify');
-const uglify = require('gulp-uglify');
-const webpack = require('gulp-webpack');
+const webpackStream = require('webpack-stream');
 
 // Environment Variable Modification for Express
 process.env.NODE_ENV = 'development';
 process.env.PLATFORM = platform;
 process.env.PORT = 3001;
-const useWebpack = process.env.USE_WEBPACK = (process.env.USE_WEBPACK === "true");
 
 // Live Server
-var gls = require('gulp-live-server');
+const gls = require('gulp-live-server');
 
 // Tasks
 gulp.task('clean', function (cb) {
-    var tasks = [
+    const tasks = [
         gulp.src(buildConfig.dist.basePath, {
             read: false
         }),
@@ -45,7 +37,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('images', function (cb) {
-    var tasks = [
+    const tasks = [
         gulp.src(buildConfig.app.images.files, {
             cwd: buildConfig.app.images.cwd
         }),
@@ -56,7 +48,7 @@ gulp.task('images', function (cb) {
 });
 
 gulp.task('fonts', function (cb) {
-    var tasks = [
+    const tasks = [
         gulp.src(buildConfig.app.fonts.files, {
             cwd: buildConfig.app.fonts.cwd
         }),
@@ -67,7 +59,7 @@ gulp.task('fonts', function (cb) {
 });
 
 gulp.task('styles', function (cb) {
-    var tasks = [
+    const tasks = [
         gulp.src(buildConfig.app.styles.files),
         sourcemaps.init(),
         sass({
@@ -83,41 +75,17 @@ gulp.task('styles', function (cb) {
 });
 
 gulp.task('scripts', function (cb) {
-    var tasks;
-
-    if (useWebpack) {
-        tasks = [
-            gulp.src(buildConfig.app.scripts.file),
-            webpack(require('./webpack.config')),
-            gulp.dest(buildConfig.dist.basePath)
-        ];
-    } else {
-        tasks = [
-            browserify({
-                entries: buildConfig.app.scripts.file,
-                debug: true
-            })
-            .transform(babelify)
-            .bundle(),
-            //gulp.src(buildConfig.build.babel),
-            source('app.js'),
-            buffer(),
-            sourcemaps.init({
-                loadMaps: true
-            }),
-            babel(),
-            uglify(),
-            concat('app.min.js'),
-            sourcemaps.write('.'),
-            gulp.dest(buildConfig.dist.basePath)
-        ];
-    }
+    const tasks = [
+        gulp.src(buildConfig.app.scripts.file),
+        webpackStream(require('./webpack.config'), require("webpack")),
+        gulp.dest(buildConfig.dist.basePath)
+    ];
 
     pump(tasks, cb);
 });
 
 gulp.task('html', function (cb) {
-    var tasks = [
+    const tasks = [
         gulp.src(buildConfig.app.html.files, {
             cwd: buildConfig.app.html.cwd
         }),
@@ -137,9 +105,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('server', function (cb) {
-    var serverFileName = 'server.js',
-        server = gls.new(serverFileName);
-
+    const server = gls.new('server.js');
     server.start();
 });
 
@@ -153,5 +119,4 @@ gulp.task('build', function (cb) {
 gulp.task('serve', function (cb) {
     run('build', ['watch', 'server']);
 });
-
 gulp.task('default', ['serve']);

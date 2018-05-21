@@ -1,12 +1,12 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const axios = require('axios');
+import React from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
 
 const Title = ({ todoCount }) => {
     return (
         <h1>Todo Manager ({todoCount})</h1>
     );
-}
+};
 
 const TodoForm = ({ addTodo }) => {
     let nameInput, textInput;
@@ -73,9 +73,9 @@ const TodoList = ({ todos }) => {
             </tbody>
         </table>
     );
-}
+};
 
-// Contaner Component
+// Container Component
 // Todo Id
 window.id = 0;
 class TodoApp extends React.Component {
@@ -85,7 +85,7 @@ class TodoApp extends React.Component {
         // Set initial state
         this.state = {
             data: []
-        }
+        };
         this.apiUrl = '/api/todos'
     }
     // Lifecycle method
@@ -100,7 +100,7 @@ class TodoApp extends React.Component {
 
     addTodo(name, text) {
         // Assemble data
-        const todo = { name: name, text: text }
+        const todo = { name: name, text: text };
         // Update data
         axios.post(this.apiUrl, todo)
             .then((res) => {
