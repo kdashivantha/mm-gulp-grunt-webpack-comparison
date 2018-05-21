@@ -18,12 +18,11 @@
   },
   "homepage": "https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison#readme",
   "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/node": "latest",
+    "awesome-typescript-loader": "^5.0.0",
     "axios": "latest",
-    "@babel/core": "^7.0.0-beta.47",
-    "babel-loader": "^8.0.0-beta.3",
-    "@babel/preset-env": "latest",
-    "@babel/preset-es2015": "latest",
-    "@babel/preset-react": "latest",
     "body-parser": "latest",
     "bootstrap-sass": "latest",
     "cross-env": "latest",
@@ -36,10 +35,9 @@
     "grunt-contrib-htmlmin": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-express-server": "latest",
-    "grunt-webpack": "latest",
     "grunt-sass": "latest",
     "grunt-task-loader": "latest",
-    "webpack-stream": "latest",
+    "grunt-webpack": "latest",
     "gulp": "latest",
     "gulp-clean": "latest",
     "gulp-concat": "latest",
@@ -53,8 +51,11 @@
     "react": "latest",
     "react-dom": "latest",
     "run-sequence": "latest",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.8.3",
     "uglifyjs-webpack-plugin": "latest",
-    "webpack": "^4.8.3"
+    "webpack": "^4.8.3",
+    "webpack-stream": "latest"
   },
   "dependencies": {
     "express": "latest"

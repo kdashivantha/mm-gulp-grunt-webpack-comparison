@@ -6,10 +6,6 @@ There are so many web packaging and task running options available to the front-
 
 Which option is best for static sites? Node.js web applications? Integrating with other languages and frameworks? We’ll dive into the differences, and similarities, between the frameworks and their offerings.
 
-# Slides
-
-Slides are available via the `slides\index.html` web page.
-
 # Code Samples
 This presentation relies heavily on a code demonstration. In order to compare Gulp, Grunt, and webpack, a small single page Todo Manager web application is included in this project.
 
@@ -31,13 +27,12 @@ The following global packages or tools are required to run the code samples:
 - [Node v8 or higher](https://nodejs.org/en/ (ES6 support)
 - [Yarn](https://yarnpkg.com/en/docs/install) (NPM can be used instead)
 - babel
-- browserify
 - grunt-cli
 - gulp-cli
 
 For the global npm packages, you can run the following command to get your system up-to-date. Afterwards, you can then run `yarn install` to restore all of the packages needed to run the code sample.
 
-`yarn global add babel-cli browserify grunt-cli gulp-cli`
+`yarn global add babel-cli grunt-cli gulp-cli`
 
 _You can just run `yarn install` to get all of the packages required here; the step-by-step is meant to be instructional if you are starting a new project from scratch._
 

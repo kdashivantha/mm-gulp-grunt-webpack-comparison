@@ -1,15 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
+
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import axios from "axios";
 
-const Title = ({ todoCount }) => {
+const Title = ({ todoCount } : any) => {
     return (
         <h1>Todo Manager ({todoCount})</h1>
     );
 };
 
-const TodoForm = ({ addTodo }) => {
-    let nameInput, textInput;
+const TodoForm = ({ addTodo } : any) => {
+    let nameInput : {value : string}, textInput : {value : string};
 
     return (
         <form className="form-horizontal" onSubmit={(e) => {
@@ -44,7 +45,8 @@ const TodoForm = ({ addTodo }) => {
     );
 };
 
-const Todo = ({ todo }) => {
+
+const Todo = ( { todo } : any) => {
     return (
         <tr>
             <td>{todo.id}</td>
@@ -52,11 +54,11 @@ const Todo = ({ todo }) => {
             <td>{todo.text}</td>
         </tr>
     );
-}
+};
 
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos } : any) => {
     // Map through the todos
-    const todoNode = todos.map((todo) => {
+    const todoNode = todos.map((todo : any) => {
         return (<Todo todo={todo} key={todo.id} />)
     });
     return (
@@ -75,11 +77,10 @@ const TodoList = ({ todos }) => {
     );
 };
 
-// Container Component
-// Todo Id
-window.id = 0;
 class TodoApp extends React.Component {
-    constructor(props) {
+    private apiUrl: string;
+    public state : {data : Array<any>};
+    constructor(props : any) {
         // Pass props to parent class
         super(props);
         // Set initial state
@@ -98,7 +99,7 @@ class TodoApp extends React.Component {
             });
     }
 
-    addTodo(name, text) {
+    addTodo(name : string, text : string) {
         // Assemble data
         const todo = { name: name, text: text };
         // Update data
@@ -132,4 +133,4 @@ class TodoApp extends React.Component {
         );
     }
 }
-ReactDOM.render(<TodoApp />, document.getElementById('container'));
+ReactDOM.render(<TodoApp/>, document.getElementById('container'));
